@@ -6,8 +6,8 @@ def mostrar_decimal(x, desc='', fmt='{:4.3f}'):
     text = desc + fmt
     print(text.format(float(x)))
 
-def mostrar_numero(x, dígitos=3):
-    return(x.n(digits=dígitos))
+def mostrar_numero(x, digitos=3):
+    return(x.n(digits=digitos))
 
 class Estadin(object):
     """
@@ -78,20 +78,20 @@ class Estadin(object):
         r = N.cum_distribution_function_inv(P)
         return(r)
 
-    def obtener_tamaño_muestra_proporción(
+    def obtener_amplitud_muestra_proporcion(
         self, radio_ic, confianza):
         """
-        Obtener el tamaño de una muestra para estimar
+        Obtener el amplitud de una muestra para estimar
         una proporción para la confianza dada.
 
-        DESCRIPCIÓN: El tamaño de la muestra es
+        DESCRIPCIÓN: El amplitud de la muestra es
         directamente proporcional de la desviación
         estándar de la distribución de éxitos de la
         población, que depende de la proporción p de
         éxitos y es la raíz cuadrada de p(1-p).
         Si bien desconocemos p, como es menor o igual
         a 1, p(1-p) es menor o igual a 1/4.
-        Entonces el extremo superior de los tamaños
+        Entonces el extremo superior de los amplituds
         de muestras es (1/2) (z/radio_ic)^2. Donde z es el
         quantil normal de la confianza.
 
@@ -99,24 +99,24 @@ class Estadin(object):
         radio_ic: radio_ic dada
         confianza: confianza dada
         SALIDA:
-        tamaño de la muestra
+        amplitud de la muestra
         TEST:
         >>> cest = Estadin()
-        >>> cest.obtener_tamaño_muestra(0.01, 0.95)
+        >>> cest.obtener_amplitud_muestra(0.01, 0.95)
         9604
         """
         r = self.obtener_radio_ic_normal(confianza)
         n = 0.25*(r/radio_ic)^2
         return(n.ceil())
 
-    def obtener_ic_proporción(self, tam, confianza, prop,
+    def obtener_ic_proporcion(self, tam, confianza, prop,
                                fmt=':3.2f'):
         """
         Obtener el intervalo de confianza para una
         proporción.
 
         ENTRADA:
-        tam: tamaño de la muestra,
+        tam: amplitud de la muestra,
         confianza: confianza deseada,
         prop: proporción de éxitos de la muestra.
 
@@ -139,7 +139,7 @@ class Estadin(object):
         TEST:
 
         >>> ces = Estadin()
-        >>> ces.obtener_ic_proporción(tam = 100,
+        >>> ces.obtener_ic_proporcion(tam = 100,
                                        confianza = 0.95,
                                        prop = 35/100,
                                        fmt=':3.2f')
@@ -164,7 +164,7 @@ class Estadin(object):
         promedio.
 
         ENTRADA:
-        tam: tamaño de la muestra,
+        tam: amplitud de la muestra,
         confianza: confianza deseada,
         prom: promedio de valores de la muestra,
         s: desviación estándar:
@@ -217,9 +217,9 @@ class Estadin(object):
 
         ENTRADA:
         confianza: confianza deseada,
-        tam1: tamaño de la muestra1,
+        tam1: amplitud de la muestra1,
         prop1: proporción de éxitos de la muestra1.
-        tam2: tamaño de la muestra2,
+        tam2: amplitud de la muestra2,
         prop2: proporción de éxitos de la muestra2.
 
         SALIDA:
@@ -262,10 +262,10 @@ class Estadin(object):
 
         ENTRADA:
         confianza: confianza deseada,
-        tam1: tamaño de la muestra1,
+        tam1: amplitud de la muestra1,
         prom1: promedio de la muestra1,
         s1: desviación estándar de la muestra1,
-        tam2: tamaño de la muestra2,
+        tam2: amplitud de la muestra2,
         s2: desviación estándar de la muestra2,
         prop2: proporción de éxitos de la muestra2.
 
@@ -371,17 +371,17 @@ class Estadin(object):
                       legend_color=legend_color,
                       aspect_ratio=aspect_ratio)
 
-        polígono = lambda zi, zf: polygon(
+        poligono = lambda zi, zf: polygon(
             self.obtener_puntos_densidad(tipod, r, zi, zf),
             alpha=alpha, rgbcolor=rgbcolor,
             edgecolor=edgecolor, thickness=thickness,
             aspect_ratio=aspect_ratio, fill=fill)
         Plot = Ptot
         if not complemento:
-            Plot += polígono(zi,zf)
+            Plot += poligono(zi,zf)
         else:
             if zl < zi:
-                Plot += polígono(zl,zi)
+                Plot += poligono(zl,zi)
             if zf < zr:
-                Plot += polígono(zf,zr)
+                Plot += poligono(zf,zr)
         return(Plot)
